@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Love Calculator</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px 0;
+    }
+
+    .card {
+      background: #ffffff;
+      padding: 30px 35px 35px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      width: 90%;
+      max-width: 360px;
+      margin-bottom: 20px;
+    }
+
+    .logo-container {
+      margin-bottom: 15px;
+    }
+
+    .logo {
+      width: 140px;
+      height: 140px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      margin: 10px 0;
+      border: 2px solid #ffe0e6;
+      border-radius: 10px;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    input:focus {
+      border-color: #ff3366;
+    }
+
+    button {
+      background-color: #ff3366;
+      color: white;
+      border: none;
+      padding: 14px;
+      margin-top: 10px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.2s, transform 0.1s;
+    }
+
+    button:hover {
+      background-color: #e02452;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .register-btn {
+      background-color: #25d366;
+      margin-top: 10px;
+    }
+
+    .register-btn:hover {
+      background-color: #1ebc57;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #cc0044;
+      min-height: 30px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .dashboard-card {
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      width: 90%;
+      max-width: 450px;
+      text-align: center;
+    }
+
+    .link-box {
+      margin-top: 15px;
+      padding: 12px;
+      background: #f8f9fa;
+      border: 1px dashed #ff3366;
+      border-radius: 8px;
+      word-break: break-all;
+      font-size: 13px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      padding: 8px 10px;
+      border: 1px solid #ffe0e6;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #ff3366;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <!-- Embedded Logo -->
+  <div class="logo-container">
+    <svg class="logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="95" fill="#ffe6ec" stroke="#ff3366" stroke-width="6"/>
+      <path d="M 100 145 C 50 115 40 75 70 55 C 88 43 100 60 100 60 C 100 60 112 43 130 55 C 160 75 150 115 100 145 Z" fill="#ff3366"/>
+      <rect x="65" y="70" width="70" height="55" rx="10" fill="#ffffff" stroke="#ff3366" stroke-width="3"/>
+      <rect x="73" y="78" width="54" height="15" rx="4" fill="#333333"/>
+      <text x="82" y="90" fill="#ffffff" font-size="10" font-weight="bold" font-family="Arial">98% ❤️</text>
+      <circle cx="83" cy="103" r="4" fill="#ff3366"/>
+      <circle cx="100" cy="103" r="4" fill="#ff3366"/>
+      <circle cx="117" cy="103" r="4" fill="#ff3366"/>
+      <circle cx="83" cy="116" r="4" fill="#ff3366"/>
+      <circle cx="100" cy="116" r="4" fill="#ff3366"/>
+      <circle cx="117" cy="116" r="4" fill="#ff3366"/>
+      <text x="100" y="170" fill="#ff3366" font-size="16" font-weight="bold" text-anchor="middle" font-family="Arial">Love Calculator</text>
+    </svg>
+  </div>
+  
+  <!-- Calculate Section -->
+  <input type="text" id="yourName" placeholder="Your Name" autocomplete="off" required>
+  <input type="text" id="crushName" placeholder="Crush / Friend Name" autocomplete="off" required>
+  <button onclick="calculateLove()">Calculate</button>
+  
+  <div class="result" id="resultText"></div>
+
+  <!-- Register / Link Generation Section below Calculate -->
+  <hr style="margin: 20px 0; border: none; border-top: 1px solid #ffe0e6;">
+  <p style="font-size: 13px; color: #666; margin-bottom: 5px;">Want to make your own link?</p>
+  <input type="text" id="registerName" placeholder="Enter Your Name / ID to Register">
+  <button class="register-btn" onclick="registerUser()">✨ Register / Get My Link</button>
+  <div id="userGeneratedLink" class="link-box hidden"></div>
+</div>
+
+<!-- Secret Admin Dashboard -->
+<div id="dashboardSection" class="dashboard-card hidden">
+  <h2 style="color: #ff3366; margin-bottom: 15px;">Admin Dashboard 📊</h2>
+
+  <h3 style="font-size: 15px; color: #333; margin-top: 15px; text-align: left;">Captured Entries</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Owner ID</th>
+        <th>User Name</th>
+        <th>Crush Name</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody id="dashboardData">
+    </tbody>
+  </table>
+</div>
+
+<script>
+  let historyData = [];
+
+  // Detect Owner ID from URL (e.g. ?id=11180115)
+  const urlParams = new URLSearchParams(window.location.search);
+  const currentOwnerID = urlParams.get('id') || 'General';
+
+  function calculateLove() {
+    const name1 = document.getElementById('yourName').value.trim();
+    const name2 = document.getElementById('crushName').value.trim();
+
+    if (!name1 || !name2) {
+      alert("Please enter both names!");
+      return;
+    }
+
+    const score = Math.floor(Math.random() * (100 - 87 + 1)) + 87;
+    document.getElementById('resultText').innerText = score + '% Compatibility!';
+
+    // Save to local storage for Admin Dashboard
+    historyData.push({ owner: currentOwnerID, name1, name2, score });
+    updateDashboardTable();
+
+    // Send to Google Sheets Script
+    const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+    
+    fetch(scriptURL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ownerId: currentOwnerID, yourName: name1, crushName: name2, percentage: score })
+    }).catch(err => console.error("Error logging data:", err));
+  }
+
+  // Registration function to create custom link for users
+  function registerUser() {
+    const regName = document.getElementById('registerName').value.trim();
+    if (!regName) {
+      alert("Please enter a name or ID to register!");
+      return;
+    }
+
+    const cleanID = encodeURIComponent(regName.replace(/\s+/g, '-').toLowerCase());
+    const baseUrl = window.location.href.split('?')[0];
+    const userLink = `${baseUrl}?id=${cleanID}`;
+
+    const linkBox = document.getElementById('userGeneratedLink');
+    linkBox.classList.remove('hidden');
+    linkBox.innerHTML = `<b>Your Link is Ready!</b><br><span style="color:#555;">Share this with friends:</span><br><a href="${userLink}" target="_blank" style="color:#ff3366;">${userLink}</a>`;
+  }
+
+  // Secret shortcut to open Admin Dashboard: Ctrl + Shift + D
+  document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && event.shiftKey && (event.key === 'D' || event.key === 'd')) {
+      event.preventDefault();
+      promptPassword();
+    }
+  });
+
+  function promptPassword() {
+    const correctPassword = "mitksro4@#*@#*fx"; // YOUR ADMIN PASSWORD
+    const userPassword = prompt("Enter secret key:");
+
+    if (userPassword === correctPassword) {
+      document.getElementById('dashboardSection').classList.remove('hidden');
+      alert("Dashboard unlocked successfully!");
+    } else if (userPassword !== null) {
+      alert("Incorrect key! Access denied.");
+    }
+  }
+
+  function updateDashboardTable() {
+    const tableBody = document.getElementById('dashboardData');
+    tableBody.innerHTML = '';
+
+    historyData.forEach(entry => {
+      const row = `<tr>
+        <td><b>${entry.owner}</b></td>
+        <td>${entry.name1}</td>
+        <td>${entry.name2}</td>
+        <td>${entry.score}%</td>
+      </tr>`;
+      tableBody.innerHTML += row;
+    });
+  }
+</script>
+
+</body>
+</html>
